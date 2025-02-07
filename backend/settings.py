@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'exceptions',
     'warehouses',
     'rest_framework',  # 使用 Django REST Framework
+    'api',
+    'django_extensions',
+
 ]
 
 MIDDLEWARE = [
@@ -134,3 +137,4 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

@@ -1,11 +1,52 @@
-# orders/views.py
-from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from .models import Order
 from .serializers import OrderSerializer
 
-class OrderList(APIView):
-    def get(self, request):
-        orders = Order.objects.all()  # 查询所有订单
-        serializer = OrderSerializer(orders, many=True)  # 使用序列化器将订单列表转换为 JSON 格式
-        return Response(serializer.data)  # 返回 JSON 数据
+@api_view(['GET', 'POST'])
+def order_list(request):
+    """
+    处理 /api/orders/ 路由：
+    - GET: 获取所有订单列表
+    - POST: 创建新的订单
+    """
+    if request.method == 'GET':
+        orders = Order.objects.all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def order_detail(request, pk):
+    """
+    处理 /api/orders/<int:pk>/ 路由：
+    - GET: 获取特定订单
+    - PUT: 更新订单信息
+    - DELETE: 删除订单
+    """
+    try:
+        order = Order.objects.get(pk=pk)
+    except Order.DoesNotExist:
+        return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = OrderSerializer(order, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.http import JsonResponse
+
+# 主页视图（可用于API首页）
+def home_view(request):
+    return JsonResponse({'message': 'Welcome to the Backend API!'})
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('orders.urls')),  # 包含 orders 应用的 URL 配置
-    path('api/', include('vehicles.urls')),  # 包含 vehicles 应用的 URL 配置
-    path('api/', include('warehouses.urls')),  # 包含 warehouses 应用的 URL 配置
-    path('api/', include('exceptions.urls')),  # 包含 exceptions 应用的 URL 配置
-    path('api/', include('agent.urls')),  # 包含 agent 应用的 URL 配置
+    path('admin/', admin.site.urls),  # Django Admin
+    path('api/', include('api.urls')),  # 这里引入 api.urls
+    path('', home_view),  # 主页
 ]
