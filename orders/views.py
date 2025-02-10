@@ -1,8 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Order
+from rest_framework.views import APIView
+
+from .models import Order, Package
 from .serializers import OrderSerializer
+from django.http import JsonResponse
+
+
 
 @api_view(['GET', 'POST'])
 def order_list(request):
@@ -50,3 +55,18 @@ def order_detail(request, pk):
     elif request.method == 'DELETE':
         order.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+def order_status_query(request):
+    return JsonResponse({"message": "Order status query working!"})
+class QueryOrderStatus(APIView):
+    def get(self, request, order_id, *args, **kwargs):
+        try:
+            package = Package.objects.get(order_id=order_id)
+            return Response({
+                'order_id': package.order_id,
+                'user_id': package.user_id,
+                'package_type': package.package_type,
+                'status': package.status,
+                'estimated_arrival': package.estimated_arrival
+            }, status=status.HTTP_200_OK)
+        except Package.DoesNotExist:
+            return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
