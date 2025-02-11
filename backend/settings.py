@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',  # 使用 Django REST Framework
     'api',
     'django_extensions',
+    'packages',  # 新加的包裹应用
+    'inventory',  # 添加 inventory 应用
 
 
 ]

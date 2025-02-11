@@ -25,4 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),  # Django Admin
     path('api/', include('api.urls')),  # 这里引入 api.urls
     path('', home_view),  # 主页
+    path('api/inventory/', include('inventory.urls')),  # 引入库存查询的 URL 路由
 ]

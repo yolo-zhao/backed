@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from orders.models import Product
 
 from .models import Order, Vehicle,Warehouse
 from .serializers import OrderSerializer, VehicleSerializer, WarehouseSerializer
@@ -131,3 +132,15 @@ class NotificationAPIView(APIView):
     def send_notification(self, user_id, message):
         # 这里实现通知发送逻辑
         print(f"Sending notification to user {user_id}: {message}")
+
+
+def query_inventory(request):
+    query = request.GET.get('query', '')  # 获取查询参数
+
+    if query:
+        products = Product.objects.filter(name__icontains=query)  # 查询包含关键词的商品
+        product_list = list(products.values())  # 获取查询结果的字段
+
+        return JsonResponse(product_list, safe=False)
+    else:
+        return JsonResponse({"error": "No query parameter provided"}, status=400)
