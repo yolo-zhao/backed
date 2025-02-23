@@ -12,4 +12,8 @@ urlpatterns = [
     path('notifications/', views.NotificationAPIView.as_view(), name='notifications'),
     path('packages/', include('packages.urls')),  # 引入包裹查询路径
     path('inventory/query/', query_inventory, name='query_inventory'),  # 配置 URL 路径
+    path('api/', views.some_view, name='some_view'),
+    path('orders/<int:pk>/', views.order_detail, name='order-detail'),
+
+
 ]

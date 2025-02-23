@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,7 +47,9 @@ INSTALLED_APPS = [
     'api',
     'django_extensions',
     'packages',  # 新加的包裹应用
-    'inventory',  # 添加 inventory 应用
+    'inventory',  # 添加 inventory
+    'corsheaders',
+
 
 
 ]
@@ -59,7 +62,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -140,4 +146,16 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+
+# 文心API配置
+WENXIN_API_KEY = "SnRDhCGkNGtFIwCWAnxQqnsy"  # 替换为你的实际API密钥
+STATICFILES_DIRS = [
+     os.path.join(BASE_DIR, "static"),
+ ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",  # 前端的 URL
+    "https://yourfrontend.com"
+]
 

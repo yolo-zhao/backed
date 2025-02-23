@@ -1,4 +1,5 @@
 from django.db import models
+from .wenxin_api import query_wenxin_model
 
 
 class Order(models.Model):
@@ -21,3 +22,16 @@ class Vehicle(models.Model):
 
 class Warehouse:
     pass
+
+
+class APIModel:
+    pass
+
+
+class Product:
+    pass
+
+def handle_query(user_input):
+    # 通过文心大模型查询用户的输入
+    response = query_wenxin_model(user_input)
+    return response.get("answer", "抱歉，我无法理解您的问题")

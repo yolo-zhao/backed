@@ -26,4 +26,8 @@ urlpatterns = [
     path('api/', include('api.urls')),  # 这里引入 api.urls
     path('', home_view),  # 主页
     path('api/inventory/', include('inventory.urls')),  # 引入库存查询的 URL 路由
+    path('api/', include('vehicles.urls')),
+    path('api/', include('warehouses.urls')),
+    path('api/', include('orders.urls')),
+    path('agent/', include('agent.urls')),  # 引入 agent 应用中的 urls 配置
 ]

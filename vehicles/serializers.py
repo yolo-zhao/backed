@@ -5,4 +5,4 @@ from .models import Vehicle
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
-        fields = ['vehicle_id', 'current_location']
+        fields = '__all__'
